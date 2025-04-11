@@ -8,42 +8,59 @@
 </head>
 <body>
 
-  <!-- Genre Navbar -->
+  <!-- Navbar for Chossing the Genre -->
+
   <div class="genre-navbar">
+
     <div class="genre-buttons">
+
       <button class="genre-btn" data-genre="Action">Action</button>
       <button class="genre-btn" data-genre="Comedy">Comedy</button>
+
       <button class="genre-btn" data-genre="Drama">Drama</button>
+
       <button class="genre-btn" data-genre="Romance">Romance</button>
+
       <button class="genre-btn" data-genre="Sci-Fi">Sci-Fi</button>
     </div>
   </div>
 
-  <!-- Page Header -->
+  <!-- Page Header of the Website  -->
+
   <h1>🎬 Movie Explorer</h1>
 
-  <!-- Search Box -->
+  <!-- Search Box  for Searching the movies-->
+
   <div class="search-box">
     <input type="text" id="movieInput" placeholder="Enter a movie name..." />
+
     <button id="searchBtn">Search</button>
   </div>
 
-  <!-- Loader -->
+
+  <!--  Displaying loading  -->
+    
   <div id="loader" class="hidden">🔄 Loading...</div>
 
-  <!-- Movie Results -->
+  <!--  Results of the Search  -->
+
   <div id="movieContainer"></div>
 
-  <!-- Footer -->
+  <!-- Footer for Web link  -->
+
   <footer>
     <p>
       Powered by
       <a href="https://www.omdbapi.com/" target="_blank">OMDb API</a> +
+
       <a href="https://www.themoviedb.org/" target="_blank">TMDb</a>
+
     </p>
   </footer>
 
-  <!-- Script -->
+  <!-- JavaScript -->
+
   <script src="/js/script.js"></script>
+
 </body>
 </html>
