@@ -1,34 +1,43 @@
 function searchMovie() {
-    const movieName = document.getElementById('movieInput').value;
+    const movieName = document.getElementById('movieInput').value.trim();
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('result');
   
-    fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${movieName}&r=json&page=1`, {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': '59f758066dmshfec404f6bc92e9fp11273djsn2848b5bcaa3b',
-        'X-RapidAPI-Host': 'movie-database-imdb-alternative.p.rapidapi.com'
-      }
-    })
-      .then(response => response.json())
+    resultDiv.innerHTML = '';
+    loader.classList.remove('hidden');
+  
+    if (!movieName) {
+      loader.classList.add('hidden');
+      alert("Please enter a movie name.");
+      return;
+    }
+  
+    // Corrected: added backticks ``
+    fetch(`https://www.omdbapi.com/?t=${movieName}&apikey=e02b01e6`)
+      .then(res => res.json())
       .then(data => {
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = '';
+        loader.classList.add('hidden');
   
-        if (data.Search) {
-          data.Search.forEach(movie => {
-            resultDiv.innerHTML += `
-              <div style="margin-bottom: 20px;">
-                <img src="${movie.Poster}" alt="${movie.Title}" width="200" /><br>
-                <strong>${movie.Title} (${movie.Year})</strong>
+        if (data.Response === "True") {
+          resultDiv.innerHTML = `
+            <div class="movie-card">
+              <img src="${data.Poster}" alt="${data.Title}">
+              <div class="movie-info">
+                <div class="movie-title">${data.Title} (${data.Year})</div>
+                <div class="movie-rating">⭐ IMDb Rating: ${data.imdbRating}</div>
+                <div class="movie-plot">${data.Plot}</div>
               </div>
-            `;
-          });
+            </div>
+          `;
         } else {
-          resultDiv.innerHTML = "results not found.";
+          // Corrected: wrapped the HTML in quotes
+          resultDiv.innerHTML = `<p>No results found for "${movieName}".</p>`;
         }
       })
       .catch(err => {
-        console.error(err);
-        document.getElementById("result").innerText = "Error fetching movie data.";
+        console.error("Error:", err);
+        loader.classList.add('hidden');
+        resultDiv.innerHTML = "Something went wrong. Please try again.";
       });
   }
   
