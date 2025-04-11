@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>IMDb API Demo</title>
   <link rel="stylesheet" href="css/styles.css">
+>>>>>>> 6b4bafd68ef9710b0762272f094b6fd168815431
 </head>
 <body>
-  <h1>Movie Search (IMDb API)</h1>
-  <input type="text" id="movieInput" placeholder="Enter movie name" />
-  <button onclick="searchMovie()">Search</button>
+  <h1>🎬 Movie Search (OMDb API)</h1>
+
+  <div class="search-box">
+    <input type="text" id="movieInput" placeholder="Enter movie name..." />
+    <button onclick="searchMovie()">Search</button>
+  </div>
+
+  <div id="loader" class="hidden">🔄 Loading...</div>
   <div id="result"></div>
 
-  <!-- Load JavaScript (corrected line) -->
+  <footer>
+    <p>Powered by <a href="https://www.omdbapi.com/" target="_blank">OMDb API</a>.</p>
+  </footer>
+
   <script src="js/script.js"></script>
 </body>
 </html>
