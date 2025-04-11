@@ -18,7 +18,7 @@ body {
   overflow-x: hidden;
 }
 
-/* HEADER */
+/* STYLING HEADER */
 h1 {
   font-size: 2.2rem;
   font-weight: 600;
@@ -27,7 +27,7 @@ h1 {
   text-shadow: 0 0 10px rgba(229, 9, 20, 0.4);
 }
 
-/* SEARCH */
+/* SEARCH BAR STYLED */
 .search-box {
   display: flex;
   justify-content: center;
@@ -107,7 +107,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* LOADER */
+/* LOADER SECTION */
 #loader {
   font-size: 18px;
   margin: 20px 0;
@@ -117,7 +117,7 @@ button:hover {
   display: none;
 }
 
-/* MOVIE SECTION */
+/* ADDED ANIMATION AND EFFECTS TO MOVIE SECTION */
 #movieContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -195,7 +195,7 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* FADE ANIMATION */
+/* ADDED FADE ANIMATION TO MAKE USER EXPERIANCE GOOD */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -207,7 +207,7 @@ footer a:hover {
   }
 }
 
-/* SCROLLBAR */
+/* ADDED COLOR FOR TO MATCH THE THEME SCROLLBAR */
 ::-webkit-scrollbar {
   width: 8px;
 }
