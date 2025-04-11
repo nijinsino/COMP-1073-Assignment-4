@@ -1,19 +1,32 @@
+//group three 
+
+//here we used API 
+// keys from IMDB and TMDB
+
+
+// it will 
+// get references 
 const movieContainer = document.getElementById("movieContainer");
 const loader = document.getElementById("loader");
 const input = document.getElementById("movieInput");
 const searchBtn = document.getElementById("searchBtn");
 
-const omdbKey = "e02b01e6";
-const tmdbKey = "e14d483c15025803effbfa65577655d1";
+// API 
+// keys
+const omdbKey = "e02b01e6"; // OMDb API key
+const tmdbKey = "e14d483c15025803effbfa65577655d1"; // TMDb API key
 
-// Random movie titles for page load
+// this is the 
+//  list of random popular 
+// movies to pick from when page loads
 const randomMovies = [
   "Inception", "Interstellar", "The Matrix", "Gladiator",
   "Avengers", "Joker", "Pulp Fiction", "Titanic",
   "The Dark Knight", "Forrest Gump"
 ];
 
-// TMDb genre IDs
+// TMDb genre IDs used for 
+// genre-based movie discovery
 const genreIDs = {
   "Action": 28,
   "Comedy": 35,
@@ -22,56 +35,79 @@ const genreIDs = {
   "Sci-Fi": 878
 };
 
-// Load a random movie on page load
+// it will help to
+// load a random movie from OMDb
+
 window.addEventListener("load", () => {
   const random = randomMovies[Math.floor(Math.random() * randomMovies.length)];
-  fetchSingleMovieByTitle(random);
+
+  // this will fetch OMDb details
+  fetchSingleMovieByTitle(random); 
 });
 
-// Handle search
+// here 
+// when user 
+// clicks the search button, it will search button
 searchBtn.addEventListener("click", () => {
   const query = input.value.trim();
   if (query) {
-    fetchSingleMovieByTitle(query);
+
+
+    // fetch movie by title
+    fetchSingleMovieByTitle(query); 
   } else {
     alert("Please enter a movie name.");
   }
 });
 
+// this will 
+// allow user
+//  to press Enter to search
 input.addEventListener("keypress", (e) => {
   if (e.key === "Enter") searchBtn.click();
 });
 
-// Genre buttons → TMDb discovery
+// this will 
+// set up click event for
+//  genre filter buttons
 document.querySelectorAll(".genre-btn").forEach(button => {
   button.addEventListener("click", () => {
     const genre = button.dataset.genre;
     const genreId = genreIDs[genre];
-    discoverMoviesByGenre(genreId);
+    discoverMoviesByGenre(genreId); // Fetch movies by genre
   });
 });
 
-// Fetch multiple movies from TMDb by genre
-function discoverMoviesByGenre(genreId) {
-  loader.classList.remove("hidden");
-  movieContainer.innerHTML = "";
+// it will discover 
+// movies by genre 
 
+function discoverMoviesByGenre(genreId) {
+  loader.classList.remove("hidden"); 
+  movieContainer.innerHTML = ""; 
+
+  // this will 
+  // fetch movies from TMDbs
   fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${tmdbKey}&with_genres=${genreId}&language=en-US&page=1`)
     .then(res => res.json())
     .then(data => {
-      const movies = data.results.slice(0, 12); // limit to 12
+      const movies = data.results.slice(0, 12); 
 
+      // If no movies found
       if (movies.length === 0) {
         loader.classList.add("hidden");
         movieContainer.innerHTML = `<p style="color:red;">No movies found in this genre.</p>`;
         return;
       }
 
+      // this will 
+      // display movie cards
       movies.forEach(movie => {
         const poster = movie.poster_path
           ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
           : "https://via.placeholder.com/300x445?text=No+Image";
 
+        // this will create movie card with
+        //  TMDb title and release year
         const card = document.createElement("div");
         card.classList.add("movie-card");
         card.innerHTML = `
@@ -83,60 +119,72 @@ function discoverMoviesByGenre(genreId) {
         movieContainer.appendChild(card);
       });
 
-      loader.classList.add("hidden");
+      loader.classList.add("hidden"); // this function will hide loader
 
-      // Attach OMDb fetch to each "More Info" button
+      // this will show 
+      // "More Info" buttons to fetch 
       document.querySelectorAll(".details-btn").forEach(button => {
         button.addEventListener("click", () => {
           const tmdbMovieId = button.dataset.id;
+          // Get external IMDb ID using TMDb movie ID
           fetch(`https://api.themoviedb.org/3/movie/${tmdbMovieId}/external_ids?api_key=${tmdbKey}`)
             .then(res => res.json())
             .then(idData => {
               const imdbID = idData.imdb_id;
               if (imdbID) {
-                fetchSingleMovieByID(imdbID);
+                fetchSingleMovieByID(imdbID); // Fetch detailed OMDb info
               }
             });
         });
       });
 
     })
+    //error handler
     .catch(err => {
       loader.classList.add("hidden");
       console.error("TMDb genre fetch error:", err);
-      movieContainer.innerHTML = `<p style="color:red;">Error fetching genre movies.</p>`;
+      
     });
 }
 
-// Fetch movie by title using OMDb
+// fetch 
+// movie data by title using OMDb API
 function fetchSingleMovieByTitle(title) {
   fetchAndDisplayMovie(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${omdbKey}`);
 }
 
-// Fetch movie by IMDb ID using OMDb
+// this will 
+// fetch movie data
+
 function fetchSingleMovieByID(imdbID) {
   fetchAndDisplayMovie(`https://www.omdbapi.com/?i=${imdbID}&apikey=${omdbKey}`);
 }
 
-// Fetch + display single movie details (OMDb)
+// Generic function to fetch and display a single movie using OMDb
 function fetchAndDisplayMovie(url) {
-  loader.classList.remove("hidden");
-  movieContainer.innerHTML = "";
+  loader.classList.remove("hidden"); // Show loader
+  movieContainer.innerHTML = ""; // Clear previous content
 
   fetch(url)
     .then(res => res.json())
     .then(data => {
-      loader.classList.add("hidden");
+      loader.classList.add("hidden"); // Hide loader
 
+      // If movie found it 
       if (data.Response === "True") {
         const poster = data.Poster !== "N/A"
           ? data.Poster
           : "https://via.placeholder.com/300x445?text=No+Image";
 
+        // this will 
+        // generate genre badges
         const genreTags = data.Genre.split(",")
           .map(g => `<span class="badge">${g.trim()}</span>`)
           .join(" ");
 
+        //this will  
+        // display
+        //  detailed movie info
         movieContainer.innerHTML = `
           <div class="movie-card">
             <img src="${poster}" alt="${data.Title}" />
@@ -149,7 +197,10 @@ function fetchAndDisplayMovie(url) {
           </div>
         `;
 
-        // Share IMDb link
+        // here user can see a copy 
+        // imdb link where user
+        //  get the link of movie
+        
         document.querySelector(".share-btn").addEventListener("click", () => {
           const imdbUrl = `https://www.imdb.com/title/${data.imdbID}`;
           navigator.clipboard.writeText(imdbUrl)
@@ -158,12 +209,18 @@ function fetchAndDisplayMovie(url) {
         });
 
       } else {
+        // this will show error 
+        // if movie not found
         movieContainer.innerHTML = `<p style="color:red;">Movie not found.</p>`;
       }
     })
+
+    //this function will 
+    // handle errors if the
+    //  OMDb API fetch fails
     .catch(err => {
       loader.classList.add("hidden");
       console.error("OMDb fetch error:", err);
-      movieContainer.innerHTML = `<p style="color:red;">Something went wrong.</p>`;
+      
     });
 }
