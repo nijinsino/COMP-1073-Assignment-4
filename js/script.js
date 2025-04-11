@@ -1,5 +1,15 @@
 //group three 
 
+
+
+// Movie App using OMDb API
+//  (https://www.omdbapi.com/) 
+// and TMDb API 
+// (https://developer.themoviedb.org/)
+// Data and images are fetched from the above APIs 
+
+
+
 //here we used API 
 // keys from IMDB and TMDB
 
@@ -101,6 +111,9 @@ function discoverMoviesByGenre(genreId) {
 
       // this will 
       // display movie cards
+
+
+      
       movies.forEach(movie => {
         const poster = movie.poster_path
           ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
